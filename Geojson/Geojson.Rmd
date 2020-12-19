@@ -1,0 +1,57 @@
+---
+title: "Geojson Testing"
+output: html_notebook
+---
+
+### Setup
+
+#### Packages
+
+```{r}
+# Packages
+
+require(ggplot2)
+require(plotly)
+require(geojsonio)
+require(sp)
+require(sf)
+```
+
+#### Functions
+
+```{r}
+# Given a geojson file, return an SF object for plotting
+geojson_sf <- 
+  function(file){
+    data <- geojson_read(file, what = "sp")
+    return(st_as_sf(data))
+  }
+```
+
+
+#### Data
+
+
+```{r}
+# Download file
+
+url = "https://opendata.arcgis.com/datasets/5f45e1ece6e14ef5866974a7b57d3b95_1.geojson"
+
+file = "NJ_counties.geojson"
+
+download.file(url,file)
+```
+
+```{r}
+NJ_Counties <- geojson_sf(file)
+
+NJ <-
+  NJ_Counties %>%
+  ggplot(aes(fill = COUNTY)) +
+  geom_sf() + 
+  theme(legend.position = "None")
+
+
+
+```
+
