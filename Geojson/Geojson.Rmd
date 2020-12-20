@@ -148,28 +148,46 @@ write.csv(Hosloc,"Hospitalsloc.csv")
 ### Graphs 
 
 ```{r}
+# Map of NJ 
 
+NJ <-
+  NJ_Counties_Cleaned %>%
+  ggplot() +
+  geom_sf() +
+  theme(legend.position = "None") +
+  theme(axis.ticks = element_blank(),
+        axis.text = element_blank(),
+        title = element_text(size = 9)) +
+  labs(y = "",
+       x = "",
+       title = "Map of NJ divided by county")
+
+ggplotly(NJ)
+NJ
+plot(NJ_Counties_Cleaned)
 ```
 
 
 
 ```{r}
-# Population heat maps of NJ using plotly and plot
+# Population heat maps of NJ using 2010 population data
 
 NJ <-
   NJ_Counties_Cleaned %>%
   ggplot() +
   scale_fill_gradientn(colours=c("white", "blue")) +
-  geom_sf(aes(fill = pop)) 
+  geom_sf(aes(fill = pop)) +
   theme(legend.position = "None") +
   theme(axis.ticks = element_blank(),
-        axis.text = element_blank())
+        axis.text = element_blank(),
+        title = element_text(size = 9)) +
+  labs(y = "",
+       x = "",
+       title = "2010 Population Heatmap")
 
 
 ggplotly(NJ)
-
 NJ
-
 plot(NJ_Counties_Cleaned["pop"])
 ```
 
@@ -196,16 +214,12 @@ NJ <-
   theme(legend.position = "None") +
   theme(axis.ticks = element_blank(),
         axis.text = element_blank(),
-        title = element_text(size = 9)
-        ) +
+        title = element_text(size = 9)) +
   labs(y = "",
        x = "",
-       title = "2010 Population Heatmap\nwith Outpatient centers from CSH")
-
-
+       title = "2010 Population Heatmap\nwith CSH Outpatient Center")
 
 NJ
-
 ggplotly(NJ,tooltip = "name")
 
 ```
