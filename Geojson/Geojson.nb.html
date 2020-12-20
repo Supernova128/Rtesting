@@ -1765,32 +1765,18 @@ summary {
 <h4>Packages</h4>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBQYWNrYWdlc1xucmVxdWlyZShnZ3Bsb3QyKVxucmVxdWlyZShwbG90bHkpXG5yZXF1aXJlKGdlb2pzb25pbylcbnJlcXVpcmUoc3ApXG5yZXF1aXJlKHNmKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBQYWNrYWdlc1xucmVxdWlyZShnZ3Bsb3QyKVxucmVxdWlyZShwbG90bHkpXG5yZXF1aXJlKGdlb2pzb25pbylcbnJlcXVpcmUoc3ApXG5yZXF1aXJlKHNmKVxucmVxdWlyZShydmVzdClcbnJlcXVpcmUoUlNlbGVuaXVtKVxucmVxdWlyZShodG1sdG9vbHMpXG5yZXF1aXJlKGdnbWFwKVxucmVxdWlyZSh4bWwyKVxuYGBgIn0= -->
 <pre class="r"><code># Packages
 require(ggplot2)
 require(plotly)
 require(geojsonio)
 require(sp)
-require(sf)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="functions" class="section level4">
-<h4>Functions</h4>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBHaXZlbiBhIGdlb2pzb24gZmlsZSwgcmV0dXJuIGFuIFNGIG9iamVjdCBmb3IgcGxvdHRpbmdcbmdlb2pzb25fc2YgPC0gXG4gIGZ1bmN0aW9uKGZpbGUpe1xuICAgIGRhdGEgPC0gZ2VvanNvbl9yZWFkKGZpbGUsIHdoYXQgPSBcInNwXCIpXG4gICAgcmV0dXJuKHN0X2FzX3NmKGRhdGEpKVxuICB9XG5gYGAifQ== -->
-<pre class="r"><code># Given a geojson file, return an SF object for plotting
-geojson_sf &lt;- 
-  function(file){
-    data &lt;- geojson_read(file, what = &quot;sp&quot;)
-    return(st_as_sf(data))
-  }</code></pre>
+require(sf)
+require(rvest)
+require(RSelenium)
+require(htmltools)
+require(ggmap)
+require(xml2)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1799,8 +1785,8 @@ geojson_sf &lt;-
 <h4>Data</h4>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBEb3dubG9hZCBmaWxlXG5cbnVybCA9IFwiaHR0cHM6Ly9vcGVuZGF0YS5hcmNnaXMuY29tL2RhdGFzZXRzLzVmNDVlMWVjZTZlMTRlZjU4NjY5NzRhN2I1N2QzYjk1XzEuZ2VvanNvblwiXG5cbmZpbGUgPSBcIk5KX2NvdW50aWVzLmdlb2pzb25cIlxuXG5kb3dubG9hZC5maWxlKHVybCxmaWxlKVxuYGBgIn0= -->
-<pre class="r"><code># Download file
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBEb3dubG9hZCBmaWxlIGZvciBzdGF0ZSBpbmZvXG5cbnVybCA9IFwiaHR0cHM6Ly9vcGVuZGF0YS5hcmNnaXMuY29tL2RhdGFzZXRzLzVmNDVlMWVjZTZlMTRlZjU4NjY5NzRhN2I1N2QzYjk1XzEuZ2VvanNvblwiXG5cbmZpbGUgPSBcIk5KX2NvdW50aWVzLmdlb2pzb25cIlxuXG5kb3dubG9hZC5maWxlKHVybCxmaWxlKVxuYGBgIn0= -->
+<pre class="r"><code># Download file for state info
 
 url = &quot;https://opendata.arcgis.com/datasets/5f45e1ece6e14ef5866974a7b57d3b95_1.geojson&quot;
 
@@ -1810,13 +1796,92 @@ download.file(url,file)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDb252ZXJ0IGZpbGUgdG8gc2Ygb2JqZWN0IFxuXG5maWxlID0gXCJOSl9jb3VudGllcy5nZW9qc29uXCJcblxuTkpfQ291bnRpZXMgPC1cbiAgZ2VvanNvbl9zZihmaWxlKVxuXG5gYGAifQ== -->
+<pre class="r"><code># Convert file to sf object 
+
+file = &quot;NJ_counties.geojson&quot;
+
+NJ_Counties &lt;-
+  geojson_sf(file)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2dldCBwYWdlIHNvdXJjZSBmcm9tIHdlYnNpdGVcblxuZ2MoKVxuZHJpdmVyIDwtIHJzRHJpdmVyKGJyb3dzZXIgPSBjKFwiZmlyZWZveFwiKSwgcG9ydCA9IDQ0NDU0TClcbnJlbW90ZV9kcml2ZXIgPC0gZHJpdmVyW1tcImNsaWVudFwiXV0gXG5yZW1vdGVfZHJpdmVyJG5hdmlnYXRlKFwiaHR0cHM6Ly93d3cuY2hpbGRyZW5zLXNwZWNpYWxpemVkLm9yZy9sb2NhdGlvbnMtZGlyZWN0b3J5Lz9cIilcblxucGFnZSA8LSByZW1vdGVfZHJpdmVyJGdldFBhZ2VTb3VyY2UoKVxuYGBgIn0= -->
+<pre class="r"><code>#get page source from website
+
+gc()
+driver &lt;- rsDriver(browser = c(&quot;firefox&quot;), port = 44454L)
+remote_driver &lt;- driver[[&quot;client&quot;]] 
+remote_driver$navigate(&quot;https://www.childrens-specialized.org/locations-directory/?&quot;)
+
+page &lt;- remote_driver$getPageSource()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIFJldHJpZXZlIGluZm9ybWF0aW9uIGZyb20gZGlyZWN0b3J5XG5cblhwYXRoZ2VuMSA9IFwiL2h0bWwvYm9keS9kaXZbMV0vZGl2L2Rpdi9kaXZbMl0vZGl2L2RpdlsyXS9kaXZbXCJcblxuWHBhdGhnZW4yID0gXCJdL2Rpdi9kaXZbMl0vYXJ0aWNsZVwiXG5cbkhvc2luZm8gPC0gZGF0YS5mcmFtZSgpXG5cbmZvciAoaSBpbiAxOjE1KXtcbiAgWFBhdGggPC0gcGFzdGUoWHBhdGhnZW4xLGksWHBhdGhnZW4yLHNlcCA9IFwiXCIpXG4gIE5vZGUgPC0gcGFnZVtbMV1dICU+JSBcbiAgICByZWFkX2h0bWwoKSAlPiVcbiAgICBodG1sX25vZGVzKHhwYXRoID0gWFBhdGgpXG4gIG5hbWUgPC1cbiAgICBOb2RlW1sxXV0gJT4lXG4gICAgaHRtbF9ub2RlKFwiaDJcIikgJT4lXG4gICAgaHRtbF90ZXh0KClcbiAgYWRkcmVzcyA8LVxuICAgIE5vZGVbWzFdXSAlPiVcbiAgICBodG1sX25vZGUoXCJoM1wiKSAlPiVcbiAgICBodG1sX3RleHQoKSAlPiVcbiAgICBnc3ViKHBhdHRlcm4gPSBcIlxcbiAqXCIscmVwbGFjZW1lbnQgPSBcIiBcIiwgeCA9IC4pXG4gIGZvciAoaSBpbiAxOjcpe1xuICBYUGF0aGRheSA8LSBwYXN0ZShYUGF0aCxcIi9kaXZbXCIsaSxcIl1cIixzZXAgPSBcIlwiKVxuICBkYXkgPC0gcGFnZVtbMV1dICU+JSBcbiAgICByZWFkX2h0bWwoKSAlPiVcbiAgICBodG1sX25vZGVzKHhwYXRoID0gWFBhdGhkYXkpICU+JVxuICAgIGh0bWxfYXR0cihcImNsYXNzXCIpICU+JVxuICAgIGdyZXAoXCItSG91cnNcIix4ID0gLix2YWx1ZSA9IFRSVUUpICU+JVxuICAgIGdzdWIoXCItSG91cnNcIixcIlwiLHggPSAuKVxuICB0aW1lcyA8LVxuICAgIHBhZ2VbWzFdXSAlPiUgXG4gICAgcmVhZF9odG1sKCkgJT4lXG4gICAgaHRtbF9ub2Rlcyh4cGF0aCA9IFhQYXRoZGF5KSAlPiVcbiAgICBodG1sX25vZGUoXCJoM1wiKSAlPiVcbiAgICBodG1sX3RleHQoKVxuICBhc3NpZ24oZGF5LHRpbWVzKVxuICB9XG4gIHJvdyA9IGRhdGEuZnJhbWUobmFtZSxhZGRyZXNzLE1vbmRheSxUdWVzZGF5LFdlZG5lc2RheSxUaHVyc2RheSxGcmlkYXksU2F0dXJkYXksU3VuZGF5KVxuICBIb3NpbmZvIDwtICByYmluZChIb3NpbmZvLHJvdylcbn1cblxuIyBXcml0ZSBjc3YgZmlsZSBcblxud3JpdGUuY3N2KEhvc2luZm8sIFwiSG9zcGl0YWxzLmNzdlwiKVxuYGBgIn0= -->
+<pre class="r"><code>
+# Retrieve information from directory
+
+Xpathgen1 = &quot;/html/body/div[1]/div/div/div[2]/div/div[2]/div[&quot;
+
+Xpathgen2 = &quot;]/div/div[2]/article&quot;
+
+Hosinfo &lt;- data.frame()
+
+for (i in 1:15){
+  XPath &lt;- paste(Xpathgen1,i,Xpathgen2,sep = &quot;&quot;)
+  Node &lt;- page[[1]] %&gt;% 
+    read_html() %&gt;%
+    html_nodes(xpath = XPath)
+  name &lt;-
+    Node[[1]] %&gt;%
+    html_node(&quot;h2&quot;) %&gt;%
+    html_text()
+  address &lt;-
+    Node[[1]] %&gt;%
+    html_node(&quot;h3&quot;) %&gt;%
+    html_text() %&gt;%
+    gsub(pattern = &quot;\n *&quot;,replacement = &quot; &quot;, x = .)
+  for (i in 1:7){
+  XPathday &lt;- paste(XPath,&quot;/div[&quot;,i,&quot;]&quot;,sep = &quot;&quot;)
+  day &lt;- page[[1]] %&gt;% 
+    read_html() %&gt;%
+    html_nodes(xpath = XPathday) %&gt;%
+    html_attr(&quot;class&quot;) %&gt;%
+    grep(&quot;-Hours&quot;,x = .,value = TRUE) %&gt;%
+    gsub(&quot;-Hours&quot;,&quot;&quot;,x = .)
+  times &lt;-
+    page[[1]] %&gt;% 
+    read_html() %&gt;%
+    html_nodes(xpath = XPathday) %&gt;%
+    html_node(&quot;h3&quot;) %&gt;%
+    html_text()
+  assign(day,times)
+  }
+  row = data.frame(name,address,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday)
+  Hosinfo &lt;-  rbind(Hosinfo,row)
+}
+
+# Write csv file 
+
+write.csv(Hosinfo, &quot;Hospitals.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 </div>
 <div id="graphs" class="section level3">
 <h3>Graphs</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIFBvcHVsYXRpb24gaGVhdCBtYXBzIG9mIE5KXG5cbk5KX0NvdW50aWVzX0NsZWFuZWQgPC0gXG4gIE5KX0NvdW50aWVzICU+JVxuICB0cmFuc211dGUoXG4gICAgY291bnR5ID0gQ09VTlRZLFxuICAgIENPID0gQ08sXG4gICAgcG9wID0gUE9QMjAxMCxcbiAgICBwb3BkZW5zaXR5ID0gUE9QREVOMjAxMCxcbiAgICBTaGFwZV9MZW5ndGggPSBTaGFwZV9MZW5ndGgsXG4gICAgU2hhcGVfQXJlYSA9IFNoYXBlX0FyZWEsXG4gICAgR05JUyA9IEdOSVNcbiAgKVxuXG5OSiA8LVxuICBOSl9Db3VudGllc19DbGVhbmVkICU+JVxuICBnZ3Bsb3QoKSArXG4gIGdlb21fc2YoYWVzKGNvbG9yID0gY291bnR5LGZpbGwgPSBwb3ApKSArXG4gIHRoZW1lKGxlZ2VuZC5wb3NpdGlvbiA9IFwiTm9uZVwiKVxuXG5nZ3Bsb3RseShOSilcblxuXG5wbG90KE5KX0NvdW50aWVzX0NsZWFuZWRbXCJwb3BcIl0pXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIFBvcHVsYXRpb24gaGVhdCBtYXBzIG9mIE5KXG5cbk5KX0NvdW50aWVzX0NsZWFuZWQgPC0gXG4gIE5KX0NvdW50aWVzICU+JVxuICB0cmFuc211dGUoXG4gICAgY291bnR5ID0gQ09VTlRZLFxuICAgIENPID0gQ08sXG4gICAgcG9wID0gUE9QMjAxMCxcbiAgICBwb3BkZW5zaXR5ID0gUE9QREVOMjAxMCxcbiAgICBTaGFwZV9MZW5ndGggPSBTaGFwZV9MZW5ndGgsXG4gICAgU2hhcGVfQXJlYSA9IFNoYXBlX0FyZWEsXG4gICAgR05JUyA9IEdOSVNcbiAgKVxuXG5ncmFkIDwtIFxuICBzY2FsZV9jb2xvdXJfZ3JhZGllbnQoXG4gIC4uLixcbiAgbG93ID0gXCIjMTMyQjQzXCIsXG4gIGhpZ2ggPSBcIiM1NkIxRjdcIixcbiAgc3BhY2UgPSBcIkxhYlwiLFxuICBuYS52YWx1ZSA9IFwiZ3JleTUwXCIsXG4gIGd1aWRlID0gXCJjb2xvdXJiYXJcIixcbiAgYWVzdGhldGljcyA9IFwiY29sb3VyXCJcbilcblxuXG5cblxuTkogPC1cbiAgTkpfQ291bnRpZXNfQ2xlYW5lZCAlPiVcbiAgZ2dwbG90KCkgK1xuICBnZW9tX3NmKGFlcyhmaWxsID0gcG9wKSkgK1xuICB0aGVtZShsZWdlbmQucG9zaXRpb24gPSBcIk5vbmVcIikgK1xuICB0aGVtZShheGlzLnRpY2tzLnggPSBlbGVtZW50X2JsYW5rKCksXG4gICAgICAgIGF4aXMudGV4dC54ID0gZWxlbWVudF9ibGFuaygpKVxuXG5nZ3Bsb3RseShOSilcblxuXG5wbG90KE5KX0NvdW50aWVzX0NsZWFuZWRbXCJwb3BcIl0pXG5gYGAifQ== -->
 <pre class="r"><code>
 # Population heat maps of NJ
 
@@ -1832,11 +1897,27 @@ NJ_Counties_Cleaned &lt;-
     GNIS = GNIS
   )
 
+grad &lt;- 
+  scale_colour_gradient(
+  ...,
+  low = &quot;#132B43&quot;,
+  high = &quot;#56B1F7&quot;,
+  space = &quot;Lab&quot;,
+  na.value = &quot;grey50&quot;,
+  guide = &quot;colourbar&quot;,
+  aesthetics = &quot;colour&quot;
+)
+
+
+
+
 NJ &lt;-
   NJ_Counties_Cleaned %&gt;%
   ggplot() +
-  geom_sf(aes(color = county,fill = pop)) +
-  theme(legend.position = &quot;None&quot;)
+  geom_sf(aes(fill = pop)) +
+  theme(legend.position = &quot;None&quot;) +
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank())
 
 ggplotly(NJ)
 
@@ -1846,9 +1927,18 @@ plot(NJ_Counties_Cleaned[&quot;pop&quot;])</code></pre>
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5OSlxuXG5gYGAifQ== -->
+<pre class="r"><code>
+NJ
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkdlb2pzb24gVGVzdGluZyINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCiMjIyBTZXR1cA0KDQojIyMjIFBhY2thZ2VzDQoNCmBgYHtyfQ0KIyBQYWNrYWdlcw0KcmVxdWlyZShnZ3Bsb3QyKQ0KcmVxdWlyZShwbG90bHkpDQpyZXF1aXJlKGdlb2pzb25pbykNCnJlcXVpcmUoc3ApDQpyZXF1aXJlKHNmKQ0KYGBgDQoNCiMjIyMgRnVuY3Rpb25zDQpgYGB7cn0NCg0KYGBgDQoNCmBgYHtyfQ0KIyBHaXZlbiBhIGdlb2pzb24gZmlsZSwgcmV0dXJuIGFuIFNGIG9iamVjdCBmb3IgcGxvdHRpbmcNCmdlb2pzb25fc2YgPC0gDQogIGZ1bmN0aW9uKGZpbGUpew0KICAgIGRhdGEgPC0gZ2VvanNvbl9yZWFkKGZpbGUsIHdoYXQgPSAic3AiKQ0KICAgIHJldHVybihzdF9hc19zZihkYXRhKSkNCiAgfQ0KYGBgDQoNCg0KIyMjIyBEYXRhDQoNCg0KYGBge3J9DQojIERvd25sb2FkIGZpbGUNCg0KdXJsID0gImh0dHBzOi8vb3BlbmRhdGEuYXJjZ2lzLmNvbS9kYXRhc2V0cy81ZjQ1ZTFlY2U2ZTE0ZWY1ODY2OTc0YTdiNTdkM2I5NV8xLmdlb2pzb24iDQoNCmZpbGUgPSAiTkpfY291bnRpZXMuZ2VvanNvbiINCg0KZG93bmxvYWQuZmlsZSh1cmwsZmlsZSkNCmBgYA0KDQojIyMgR3JhcGhzIA0KDQpgYGB7cn0NCg0KIyBQb3B1bGF0aW9uIGhlYXQgbWFwcyBvZiBOSg0KDQpOSl9Db3VudGllc19DbGVhbmVkIDwtIA0KICBOSl9Db3VudGllcyAlPiUNCiAgdHJhbnNtdXRlKA0KICAgIGNvdW50eSA9IENPVU5UWSwNCiAgICBDTyA9IENPLA0KICAgIHBvcCA9IFBPUDIwMTAsDQogICAgcG9wZGVuc2l0eSA9IFBPUERFTjIwMTAsDQogICAgU2hhcGVfTGVuZ3RoID0gU2hhcGVfTGVuZ3RoLA0KICAgIFNoYXBlX0FyZWEgPSBTaGFwZV9BcmVhLA0KICAgIEdOSVMgPSBHTklTDQogICkNCg0KTkogPC0NCiAgTkpfQ291bnRpZXNfQ2xlYW5lZCAlPiUNCiAgZ2dwbG90KCkgKw0KICBnZW9tX3NmKGFlcyhjb2xvciA9IGNvdW50eSxmaWxsID0gcG9wKSkgKw0KICB0aGVtZShsZWdlbmQucG9zaXRpb24gPSAiTm9uZSIpDQoNCmdncGxvdGx5KE5KKQ0KDQoNCnBsb3QoTkpfQ291bnRpZXNfQ2xlYW5lZFsicG9wIl0pDQpgYGANCg0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkdlb2pzb24gVGVzdGluZyINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCiMjIyBTZXR1cA0KDQojIyMjIFBhY2thZ2VzDQoNCmBgYHtyfQ0KIyBQYWNrYWdlcw0KcmVxdWlyZShnZ3Bsb3QyKQ0KcmVxdWlyZShwbG90bHkpDQpyZXF1aXJlKGdlb2pzb25pbykNCnJlcXVpcmUoc3ApDQpyZXF1aXJlKHNmKQ0KcmVxdWlyZShydmVzdCkNCnJlcXVpcmUoUlNlbGVuaXVtKQ0KcmVxdWlyZShodG1sdG9vbHMpDQpyZXF1aXJlKGdnbWFwKQ0KYGBgDQoNCiMjIyMgRGF0YQ0KDQoNCmBgYHtyfQ0KIyBEb3dubG9hZCBmaWxlIGZvciBzdGF0ZSBpbmZvDQoNCnVybCA9ICJodHRwczovL29wZW5kYXRhLmFyY2dpcy5jb20vZGF0YXNldHMvNWY0NWUxZWNlNmUxNGVmNTg2Njk3NGE3YjU3ZDNiOTVfMS5nZW9qc29uIg0KDQpmaWxlID0gIk5KX2NvdW50aWVzLmdlb2pzb24iDQoNCmRvd25sb2FkLmZpbGUodXJsLGZpbGUpDQpgYGANCg0KYGBge3J9DQojIENvbnZlcnQgZmlsZSB0byBzZiBvYmplY3QgDQoNCmZpbGUgPSAiTkpfY291bnRpZXMuZ2VvanNvbiINCg0KTkpfQ291bnRpZXMgPC0NCiAgZ2VvanNvbl9zZihmaWxlKQ0KDQpgYGANCg0KYGBge3J9DQojZ2V0IHBhZ2Ugc291cmNlIGZyb20gd2Vic2l0ZQ0KDQpnYygpDQpkcml2ZXIgPC0gcnNEcml2ZXIoYnJvd3NlciA9IGMoImZpcmVmb3giKSwgcG9ydCA9IDQ0NDU0TCkNCnJlbW90ZV9kcml2ZXIgPC0gZHJpdmVyW1siY2xpZW50Il1dIA0KcmVtb3RlX2RyaXZlciRuYXZpZ2F0ZSgiaHR0cHM6Ly93d3cuY2hpbGRyZW5zLXNwZWNpYWxpemVkLm9yZy9sb2NhdGlvbnMtZGlyZWN0b3J5Lz8iKQ0KDQpwYWdlIDwtIHJlbW90ZV9kcml2ZXIkZ2V0UGFnZVNvdXJjZSgpDQpgYGANCg0KYGBge3J9DQoNCiMgUmV0cmlldmUgaW5mb3JtYXRpb24gZnJvbSBkaXJlY3RvcnkNCg0KWHBhdGhnZW4xID0gIi9odG1sL2JvZHkvZGl2WzFdL2Rpdi9kaXYvZGl2WzJdL2Rpdi9kaXZbMl0vZGl2WyINCg0KWHBhdGhnZW4yID0gIl0vZGl2L2RpdlsyXS9hcnRpY2xlIg0KDQpIb3NpbmZvIDwtIGRhdGEuZnJhbWUoKQ0KDQpmb3IgKGkgaW4gMToxNSl7DQogIFhQYXRoIDwtIHBhc3RlKFhwYXRoZ2VuMSxpLFhwYXRoZ2VuMixzZXAgPSAiIikNCiAgTm9kZSA8LSBwYWdlW1sxXV0gJT4lIA0KICAgIHJlYWRfaHRtbCgpICU+JQ0KICAgIGh0bWxfbm9kZXMoeHBhdGggPSBYUGF0aCkNCiAgbmFtZSA8LQ0KICAgIE5vZGVbWzFdXSAlPiUNCiAgICBodG1sX25vZGUoImgyIikgJT4lDQogICAgaHRtbF90ZXh0KCkNCiAgYWRkcmVzcyA8LQ0KICAgIE5vZGVbWzFdXSAlPiUNCiAgICBodG1sX25vZGUoImgzIikgJT4lDQogICAgaHRtbF90ZXh0KCkgJT4lDQogICAgZ3N1YihwYXR0ZXJuID0gIlxuICoiLHJlcGxhY2VtZW50ID0gIiAiLCB4ID0gLikNCiAgZm9yIChpIGluIDE6Nyl7DQogIFhQYXRoZGF5IDwtIHBhc3RlKFhQYXRoLCIvZGl2WyIsaSwiXSIsc2VwID0gIiIpDQogIGRheSA8LSBwYWdlW1sxXV0gJT4lIA0KICAgIHJlYWRfaHRtbCgpICU+JQ0KICAgIGh0bWxfbm9kZXMoeHBhdGggPSBYUGF0aGRheSkgJT4lDQogICAgaHRtbF9hdHRyKCJjbGFzcyIpICU+JQ0KICAgIGdyZXAoIi1Ib3VycyIseCA9IC4sdmFsdWUgPSBUUlVFKSAlPiUNCiAgICBnc3ViKCItSG91cnMiLCIiLHggPSAuKQ0KICB0aW1lcyA8LQ0KICAgIHBhZ2VbWzFdXSAlPiUgDQogICAgcmVhZF9odG1sKCkgJT4lDQogICAgaHRtbF9ub2Rlcyh4cGF0aCA9IFhQYXRoZGF5KSAlPiUNCiAgICBodG1sX25vZGUoImgzIikgJT4lDQogICAgaHRtbF90ZXh0KCkNCiAgYXNzaWduKGRheSx0aW1lcykNCiAgfQ0KICByb3cgPSBkYXRhLmZyYW1lKG5hbWUsYWRkcmVzcyxNb25kYXksVHVlc2RheSxXZWRuZXNkYXksVGh1cnNkYXksRnJpZGF5LFNhdHVyZGF5LFN1bmRheSkNCiAgSG9zaW5mbyA8LSAgcmJpbmQoSG9zaW5mbyxyb3cpDQp9DQoNCiMgV3JpdGUgY3N2IGZpbGUgDQoNCndyaXRlLmNzdihIb3NpbmZvLCAiSG9zcGl0YWxzLmNzdiIpDQpgYGANCg0KIyMjIEdyYXBocyANCg0KYGBge3J9DQoNCiMgUG9wdWxhdGlvbiBoZWF0IG1hcHMgb2YgTkoNCg0KTkpfQ291bnRpZXNfQ2xlYW5lZCA8LSANCiAgTkpfQ291bnRpZXMgJT4lDQogIHRyYW5zbXV0ZSgNCiAgICBjb3VudHkgPSBDT1VOVFksDQogICAgQ08gPSBDTywNCiAgICBwb3AgPSBQT1AyMDEwLA0KICAgIHBvcGRlbnNpdHkgPSBQT1BERU4yMDEwLA0KICAgIFNoYXBlX0xlbmd0aCA9IFNoYXBlX0xlbmd0aCwNCiAgICBTaGFwZV9BcmVhID0gU2hhcGVfQXJlYSwNCiAgICBHTklTID0gR05JUw0KICApDQoNCmdyYWQgPC0gDQogIHNjYWxlX2NvbG91cl9ncmFkaWVudCgNCiAgLi4uLA0KICBsb3cgPSAiIzEzMkI0MyIsDQogIGhpZ2ggPSAiIzU2QjFGNyIsDQogIHNwYWNlID0gIkxhYiIsDQogIG5hLnZhbHVlID0gImdyZXk1MCIsDQogIGd1aWRlID0gImNvbG91cmJhciIsDQogIGFlc3RoZXRpY3MgPSAiY29sb3VyIg0KKQ0KDQoNCg0KDQpOSiA8LQ0KICBOSl9Db3VudGllc19DbGVhbmVkICU+JQ0KICBnZ3Bsb3QoKSArDQogIGdlb21fc2YoYWVzKGZpbGwgPSBwb3ApKSArDQogIHRoZW1lKGxlZ2VuZC5wb3NpdGlvbiA9ICJOb25lIikgKw0KICB0aGVtZShheGlzLnRpY2tzLnggPSBlbGVtZW50X2JsYW5rKCksDQogICAgICAgIGF4aXMudGV4dC54ID0gZWxlbWVudF9ibGFuaygpKQ0KDQpnZ3Bsb3RseShOSikNCg0KDQpwbG90KE5KX0NvdW50aWVzX0NsZWFuZWRbInBvcCJdKQ0KYGBgDQoNCg0KYGBge3J9DQoNCk5KDQoNCmBgYA0KDQo=</div>
 
 
 
