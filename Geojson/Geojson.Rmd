@@ -41,11 +41,33 @@ file = "NJ_counties.geojson"
 download.file(url,file)
 ```
 
+### Graphs 
+
 ```{r}
-#NJ_Counties <- geojson_sf(file)
 
-NJ_Counties %>%
-  plot_ly(fill = ~COUNTY)
+# Population heat maps of NJ
 
+NJ_Counties_Cleaned <- 
+  NJ_Counties %>%
+  transmute(
+    county = COUNTY,
+    CO = CO,
+    pop = POP2010,
+    popdensity = POPDEN2010,
+    Shape_Length = Shape_Length,
+    Shape_Area = Shape_Area,
+    GNIS = GNIS
+  )
+
+NJ <-
+  NJ_Counties_Cleaned %>%
+  ggplot() +
+  geom_sf(aes(color = county,fill = pop)) +
+  theme(legend.position = "None")
+
+ggplotly(NJ)
+
+
+plot(NJ_Counties_Cleaned["pop"])
 ```
 
