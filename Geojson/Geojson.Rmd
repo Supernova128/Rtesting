@@ -18,6 +18,8 @@ require(rvest)
 require(RSelenium)
 require(htmltools)
 require(ggmap)
+require(lubridate)
+require(stringr)
 ```
 
 #### Data
@@ -31,6 +33,8 @@ url = "https://opendata.arcgis.com/datasets/5f45e1ece6e14ef5866974a7b57d3b95_1.g
 file = "NJ_counties.geojson"
 
 download.file(url,file)
+
+rm(url)
 ```
 
 ```{r}
@@ -40,7 +44,7 @@ file = "NJ_counties.geojson"
 
 NJ_Counties <-
   geojson_sf(file)
-
+rm(file)
 ```
 
 ```{r}
@@ -55,7 +59,6 @@ page <- remote_driver$getPageSource()
 ```
 
 ```{r}
-
 # Retrieve information from directory
 
 Xpathgen1 = "/html/body/div[1]/div/div/div[2]/div/div[2]/div["
@@ -103,11 +106,28 @@ for (i in 1:15){
 write.csv(Hosinfo, "Hospitals.csv")
 ```
 
+```{r}
+# Data Wrangling
+
+Hosinfo <- read.csv("Hospitals.csv")
+
+pattern <- "([0-1]*[0-9]:[0-5][0-9] *[AaPp][Mm][-to ]+[0-1]*[0-9]:[0-5][0-9] *[AaPp][Mm])"
+
+Hoscleaned <- 
+  Hosinfo %>%
+  select(name,address) %>%
+  mutate_geocode(address) # Requires google API key
+
+write.csv(Hoscleaned,"Hospitalsloc.csv")
+
+```
+
+
 ### Graphs 
 
 ```{r}
 
-# Population heat maps of NJ
+# Population heat maps of NJ using plotly and plot
 
 NJ_Counties_Cleaned <- 
   NJ_Counties %>%
@@ -120,17 +140,6 @@ NJ_Counties_Cleaned <-
     Shape_Area = Shape_Area,
     GNIS = GNIS
   )
-
-grad <- 
-  scale_colour_gradient(
-  ...,
-  low = "#132B43",
-  high = "#56B1F7",
-  space = "Lab",
-  na.value = "grey50",
-  guide = "colourbar",
-  aesthetics = "colour"
-)
 
 
 
@@ -152,7 +161,13 @@ plot(NJ_Counties_Cleaned["pop"])
 
 ```{r}
 
-NJ
+# Location of Hospitals in NJ 
+
+read.csv()
+
+
+
+
 
 ```
 
