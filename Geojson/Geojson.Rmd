@@ -17,6 +17,9 @@ require(sf)
 ```
 
 #### Functions
+```{r}
+
+```
 
 ```{r}
 # Given a geojson file, return an SF object for plotting
@@ -70,4 +73,5 @@ ggplotly(NJ)
 
 plot(NJ_Counties_Cleaned["pop"])
 ```
+
 
