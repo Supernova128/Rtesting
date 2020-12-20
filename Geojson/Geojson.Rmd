@@ -48,6 +48,24 @@ rm(file)
 ```
 
 ```{r}
+# Clean Data 
+
+NJ_Counties_Cleaned <- 
+  NJ_Counties %>%
+  transmute(
+    county = COUNTY,
+    CO = CO,
+    pop = POP2010,
+    popdensity = POPDEN2010,
+    Shape_Length = Shape_Length,
+    Shape_Area = Shape_Area,
+    GNIS = GNIS
+  )
+```
+
+
+
+```{r}
 #get page source from website
 
 gc()
@@ -101,6 +119,8 @@ for (i in 1:15){
   Hosinfo <-  rbind(Hosinfo,row)
 }
 
+rm(row,Xpathgen1,Xpathgen2,XPath,XPathday,i,name)
+
 # Write csv file 
 
 write.csv(Hosinfo, "Hospitals.csv")
@@ -113,12 +133,14 @@ Hosinfo <- read.csv("Hospitals.csv")
 
 pattern <- "([0-1]*[0-9]:[0-5][0-9] *[AaPp][Mm][-to ]+[0-1]*[0-9]:[0-5][0-9] *[AaPp][Mm])"
 
-Hoscleaned <- 
+Hosloc <- 
   Hosinfo %>%
   select(name,address) %>%
   mutate_geocode(address) # Requires google API key
 
-write.csv(Hoscleaned,"Hospitalsloc.csv")
+rm(pattern)
+
+write.csv(Hosloc,"Hospitalsloc.csv")
 
 ```
 
@@ -127,33 +149,26 @@ write.csv(Hoscleaned,"Hospitalsloc.csv")
 
 ```{r}
 
+```
+
+
+
+```{r}
 # Population heat maps of NJ using plotly and plot
-
-NJ_Counties_Cleaned <- 
-  NJ_Counties %>%
-  transmute(
-    county = COUNTY,
-    CO = CO,
-    pop = POP2010,
-    popdensity = POPDEN2010,
-    Shape_Length = Shape_Length,
-    Shape_Area = Shape_Area,
-    GNIS = GNIS
-  )
-
-
-
 
 NJ <-
   NJ_Counties_Cleaned %>%
   ggplot() +
-  geom_sf(aes(fill = pop)) +
+  scale_fill_gradientn(colours=c("white", "blue")) +
+  geom_sf(aes(fill = pop)) 
   theme(legend.position = "None") +
-  theme(axis.ticks.x = element_blank(),
-        axis.text.x = element_blank())
+  theme(axis.ticks = element_blank(),
+        axis.text = element_blank())
+
 
 ggplotly(NJ)
 
+NJ
 
 plot(NJ_Counties_Cleaned["pop"])
 ```
@@ -161,13 +176,37 @@ plot(NJ_Counties_Cleaned["pop"])
 
 ```{r}
 
-# Location of Hospitals in NJ 
+# Location of Hospitals in NJ on heatmap
 
-read.csv()
+Hosloc <- read.csv("Hospitalsloc.csv")
+
+# Only need out patient centers 
+
+Hosloc <-
+  Hosloc %>%
+  filter(grepl("Outpatient", name))
+
+
+NJ <-
+  NJ_Counties_Cleaned %>%
+  ggplot() +
+  scale_fill_gradientn(colours=c("white", "blue")) +
+  geom_sf(aes(fill = pop)) +
+  geom_point(data = Hosloc,aes(x = lon,y = lat,shape = "square", label = name,color = "orange")) +
+  theme(legend.position = "None") +
+  theme(axis.ticks = element_blank(),
+        axis.text = element_blank(),
+        title = element_text(size = 9)
+        ) +
+  labs(y = "",
+       x = "",
+       title = "2010 Population Heatmap\nwith Outpatient centers from CSH")
 
 
 
+NJ
 
+ggplotly(NJ,tooltip = "name")
 
 ```
 
