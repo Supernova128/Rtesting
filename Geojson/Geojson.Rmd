@@ -9,7 +9,6 @@ output: html_notebook
 
 ```{r}
 # Packages
-
 require(ggplot2)
 require(plotly)
 require(geojsonio)
@@ -43,15 +42,10 @@ download.file(url,file)
 ```
 
 ```{r}
-NJ_Counties <- geojson_sf(file)
+#NJ_Counties <- geojson_sf(file)
 
-NJ <-
-  NJ_Counties %>%
-  ggplot(aes(fill = COUNTY)) +
-  geom_sf() + 
-  theme(legend.position = "None")
-
-
+NJ_Counties %>%
+  plot_ly(fill = ~COUNTY)
 
 ```
 
