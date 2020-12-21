@@ -4,7 +4,9 @@ output: html_notebook
 ---
 
 ### Setup
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
 #### Packages
 
 ```{r}
@@ -20,8 +22,9 @@ require(htmltools)
 require(ggmap)
 ```
 
-#### Data
+### Data
 
+#### Data Retrival
 
 ```{r}
 # Download file for state info
@@ -36,33 +39,6 @@ rm(url)
 ```
 
 ```{r}
-# Convert file to sf object 
-
-file = "NJ_counties.geojson"
-
-NJ_Counties <-
-  geojson_sf(file)
-rm(file)
-```
-
-```{r}
-# Clean Data 
-
-NJ_Counties_Cleaned <- 
-  NJ_Counties %>%
-  transmute(
-    county = COUNTY,
-    CO = CO,
-    pop = POP2010,
-    popdensity = POPDEN2010,
-    Shape_Length = Shape_Length,
-    Shape_Area = Shape_Area,
-    GNIS = GNIS
-  )
-```
-
-
-```{r}
 #get page source from website
 
 gc()
@@ -71,19 +47,21 @@ remote_driver <- driver[["client"]]
 remote_driver$navigate("https://www.childrens-specialized.org/locations-directory/?")
 
 page <- remote_driver$getPageSource()
+
+rm(driver,remote_driver)
 ```
 
 ```{r}
-# Retrieve information from directory
+# Retrieve information from page
 
 Xpathgen1 = "/html/body/div[1]/div/div/div[2]/div/div[2]/div["
 
 Xpathgen2 = "]/div/div[2]/article"
 
-Hosinfo <- data.frame()
+Hosinfo <- data.frame() # Create empty data frame
 
-for (i in 1:15){
-  XPath <- paste(Xpathgen1,i,Xpathgen2,sep = "")
+for (i in 1:15){ # For each hospital on website 
+  XPath <- paste(Xpathgen1,i,Xpathgen2,sep = "") 
   Node <- page[[1]] %>% 
     read_html() %>%
     html_nodes(xpath = XPath)
@@ -111,22 +89,54 @@ for (i in 1:15){
     html_node("h3") %>%
     html_text()
   assign(day,times)
+  rm(day)
   }
   row = data.frame(name,address,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday)
   Hosinfo <-  rbind(Hosinfo,row)
 }
 
-rm(row,Xpathgen1,Xpathgen2,XPath,XPathday,i,name)
+rm(row,Xpathgen1,Xpathgen2,XPath,XPathday,i,name,address,Monday,Tuesday,
+   Wednesday,Thursday,Friday,Saturday,Sunday,times)
 
 # Write csv file 
 
 write.csv(Hosinfo, "Hospitals.csv")
 ```
 
-```{r}
-# Data Wrangling
+#### Data Loading
 
-Hosinfo <- read.csv("Hospitals.csv")
+```{r}
+Hosinfo <- read.csv("Hospitals.csv") # Get Hospital info as a dataframe
+
+file = "NJ_counties.geojson" # Get County info file
+
+NJ_Counties <- # Save as a sf object
+  geojson_sf(file)
+rm(file)
+```
+
+
+
+#### Data Wrangling
+
+```{r}
+# Clean NJ_Counties 
+
+NJ_Counties_Cleaned <- 
+  NJ_Counties %>%
+  transmute(
+    county = COUNTY,
+    CO = CO,
+    pop = POP2010,
+    popdensity = POPDEN2010,
+    Shape_Length = Shape_Length,
+    Shape_Area = Shape_Area,
+    GNIS = GNIS
+  )
+```
+
+```{r}
+# Get Hospital location data
 
 pattern <- "([0-1]*[0-9]:[0-5][0-9] *[AaPp][Mm][-to ]+[0-1]*[0-9]:[0-5][0-9] *[AaPp][Mm])" # Pattern to extract first time range
 
@@ -138,7 +148,6 @@ Hosloc <-
 rm(pattern)
 
 write.csv(Hosloc,"Hospitalsloc.csv")
-
 ```
 
 
@@ -172,7 +181,7 @@ plot(NJ_Counties_Cleaned)
 NJ <-
   NJ_Counties_Cleaned %>%
   ggplot() +
-  scale_fill_gradientn(colours=c("white", "blue")) +
+  scale_fill_gradientn(colours=c("white", "steelblue")) +
   geom_sf(aes(fill = pop)) +
   theme(legend.position = "None") +
   theme(axis.ticks = element_blank(),
