@@ -205,7 +205,7 @@ Hosloc <-
 NJ <-
   NJ_Counties_Cleaned %>%
   ggplot() +
-  scale_fill_gradientn(colours=c("white", "blue")) +
+  scale_fill_gradientn(colours=c("white", "steelblue")) +
   geom_sf(aes(fill = pop)) +
   geom_point(data = Hosloc,aes(x = lon,y = lat,shape = "square", label = name,color = "orange")) +
   theme(legend.position = "None") +
