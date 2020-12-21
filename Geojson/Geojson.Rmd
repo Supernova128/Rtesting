@@ -18,8 +18,6 @@ require(rvest)
 require(RSelenium)
 require(htmltools)
 require(ggmap)
-require(lubridate)
-require(stringr)
 ```
 
 #### Data
@@ -62,7 +60,6 @@ NJ_Counties_Cleaned <-
     GNIS = GNIS
   )
 ```
-
 
 
 ```{r}
@@ -131,7 +128,7 @@ write.csv(Hosinfo, "Hospitals.csv")
 
 Hosinfo <- read.csv("Hospitals.csv")
 
-pattern <- "([0-1]*[0-9]:[0-5][0-9] *[AaPp][Mm][-to ]+[0-1]*[0-9]:[0-5][0-9] *[AaPp][Mm])"
+pattern <- "([0-1]*[0-9]:[0-5][0-9] *[AaPp][Mm][-to ]+[0-1]*[0-9]:[0-5][0-9] *[AaPp][Mm])" # Pattern to extract first time range
 
 Hosloc <- 
   Hosinfo %>%
