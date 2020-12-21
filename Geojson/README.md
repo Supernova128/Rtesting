@@ -1,6 +1,6 @@
 <h3><b>Goal</b></h3>
 
-Create a heatmap of the with the population of NJ counties and locations of hospitals. 
+Create a heatmap of the with the population of NJ counties and locations of CSH Outpatient Centers. 
 
 <h3><b>Packages Used</b></h3>
 
