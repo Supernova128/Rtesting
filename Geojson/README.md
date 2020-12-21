@@ -1,4 +1,8 @@
-<h3><b>Packages Used </b></h3>
+<h3><b>Goal</b></h3>
+
+Create a heatmap of the with the population of NJ counties and locations of hospitals. 
+
+<h3><b>Packages Used</b></h3>
 
 ggplot2
 
@@ -28,3 +32,8 @@ Various Regexs
 
 Plotting with ggplotly and plot
 
+<h3><b>Data Used</b></h3>
+
+NJ County Borders and Population data: https://njogis-newjersey.opendata.arcgis.com/datasets/5f45e1ece6e14ef5866974a7b57d3b95_1/data?geometry=-93.258%2C37.149%2C-56.191%2C43.027&selectedAttribute=Shape_Area
+
+Location of CSH Hospitals: https://www.childrens-specialized.org/locations-directory/?
