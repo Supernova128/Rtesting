@@ -211,13 +211,15 @@ NJ <-
   theme(legend.position = "None") +
   theme(axis.ticks = element_blank(),
         axis.text = element_blank(),
-        title = element_text(size = 9)) +
+        title = element_text(size = 9, family = "serif")) +
   labs(y = "",
        x = "",
        title = "2010 Population Heatmap\nwith CSH Outpatient Center")
-
-NJ
 ggplotly(NJ,tooltip = "name")
+NJ
+
+NJ %>%
+ggsave(file="PopheatmapNJ.png", plot = ., width=3, height=4, dpi=300)
 
 ```
 
