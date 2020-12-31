@@ -36,4 +36,4 @@ Plotting with ggplotly and plot
 
 NJ County Borders and Population data: https://njogis-newjersey.opendata.arcgis.com/datasets/5f45e1ece6e14ef5866974a7b57d3b95_1/data?geometry=-93.258%2C37.149%2C-56.191%2C43.027&selectedAttribute=Shape_Area
 
-Location of CSH Hospitals: https://www.childrens-specialized.org/locations-directory/?
+Location of CSH Hospitals: https://www.childrens-specialized.org/locations-directory/? (Website chnaged location, data retrival code for this website no longer works, please use data in repo)
