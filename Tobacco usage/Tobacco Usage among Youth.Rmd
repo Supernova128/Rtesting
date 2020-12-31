@@ -1,0 +1,40 @@
+---
+title: "Tobacco Usage amoung Youth"
+output: html_notebook
+---
+
+### Setup
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+```{r}
+# Packages 
+
+library(tidyverse)
+library(haven)
+
+```
+
+### Data 
+
+#### Data loading
+
+```{r}
+
+yearrange = 1999:2020
+
+for (year in yearrange){
+  assign(
+    paste("Tobacco",year),
+    read_sas(
+      paste(
+        "https://www.cdc.gov/tobacco/data_statistics/surveys/nyts/zip_files/",
+        year,'/',year,
+        "-nyts-dataset-and-codebook-sas.zip"
+      )
+    )
+  )
+}
+```
+
