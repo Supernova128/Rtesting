@@ -75,7 +75,14 @@ rm(Surveydatadownloader)
 
 ```{r}
 
-
-
+for (year in list.files(path = "data")){
+  datapath = paste(
+    "data/",year,"/",
+    list.files(paste("data/", year, sep = ""), pattern = ".*?.sas7bdat$"),sep = "")
+  catalogpath = paste(
+    "data/",year,"/",
+    list.files(paste("data/", year, sep =""), pattern = ".*?.sas7bcat$"),sep = "")
+  assign(paste("nyts",year,sep = ""),read_sas(data_file = datapath,catalog_file = catalogpath))
+}
 ```
 
