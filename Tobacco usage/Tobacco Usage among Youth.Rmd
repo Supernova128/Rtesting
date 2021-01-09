@@ -48,7 +48,7 @@ Surveydatadownloader(2018:2018, "-nyts-dataset-codebook-sas.zip")
 Surveydatadownloader(c(2011,2014:2017),"-dataset-codebook-sas.zip")
 Surveydatadownloader(2012:2013, "-codebook-dataset-sas.zip")
 
-# Download data from before 2011
+# Download data before 2011
 
 for (year in c(1999,2000,2002,2004,2006,2009)) {
       # Download zip file
@@ -56,10 +56,19 @@ for (year in c(1999,2000,2002,2004,2006,2009)) {
                       ,year,"_Codebook_Dataset_SAS.zip",sep = "")
       download.file(fullurl,paste(year))
       # Unzip and put in data directory
+      if (year < 2006) 
       unzip(paste(year),exdir = paste("data/",year,sep = ""),overwrite = TRUE)
+      else {
+        unzip(paste(year),exdir = paste("data",sep = ""),overwrite = TRUE)
+        file.rename(paste("data/",list.files(path = "data", pattern = paste(year)), sep = ""),
+                  paste("data/", year, sep = ""))
+      }
       # Remove previously downloaded zip file
       unlink(paste(year))
 }
+
+
+
 
 ```
 
