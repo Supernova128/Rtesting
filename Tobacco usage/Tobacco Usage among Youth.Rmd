@@ -21,20 +21,45 @@ library(haven)
 #### Data loading
 
 ```{r}
+# Uses direct download links to download data 
 
-yearrange = 1999:2020
+# Due to varying url endings, 
+# I used a function to automatically download data from the NYTS Website
 
-for (year in yearrange){
-  assign(
-    paste("Tobacco",year),
-    read_sas(
-      paste(
-        "https://www.cdc.gov/tobacco/data_statistics/surveys/nyts/zip_files/",
-        year,'/',year,
-        "-nyts-dataset-and-codebook-sas.zip"
-      )
-    )
-  )
+Surveydatadownloader <-
+  function(yearrange,urlending) 
+    for (year in yearrange) {
+      # Download zip file
+      fullurl = paste("https://www.cdc.gov/tobacco/data_statistics/surveys/nyts/zip_files/"
+                      ,year,"/",year,urlending,sep = "")
+      download.file(fullurl,paste(year))
+      # Unzip and put in data directory
+      unzip(paste(year),exdir = "data",overwrite = TRUE)
+      # Rename file to just year
+      file.rename(paste("data/",list.files(path = "data", pattern = paste(year)), sep = ""),
+                  paste("data/", year, sep = ""))
+      # Remove previously downloaded zip file
+      unlink(paste(year))
+    }
+
+# Download data from 2011 to 2020
+Surveydatadownloader(2019:2020,"-nyts-dataset-and-codebook-sas.zip")
+Surveydatadownloader(2018:2018, "-nyts-dataset-codebook-sas.zip")
+Surveydatadownloader(c(2011,2014:2017),"-dataset-codebook-sas.zip")
+Surveydatadownloader(2012:2013, "-codebook-dataset-sas.zip")
+
+# Download data from before 2011
+
+for (year in c(1999,2000,2002,2004,2006,2009)) {
+      # Download zip file
+      fullurl = paste("https://www.cdc.gov/tobacco/data_statistics/surveys/nyts/zip_files/"
+                      ,year,"_Codebook_Dataset_SAS.zip",sep = "")
+      download.file(fullurl,paste(year))
+      # Unzip and put in data directory
+      unzip(paste(year),exdir = paste("data/",year,sep = ""),overwrite = TRUE)
+      # Remove previously downloaded zip file
+      unlink(paste(year))
 }
+
 ```
 
