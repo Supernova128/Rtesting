@@ -18,7 +18,7 @@ library(haven)
 
 ### Data 
 
-#### Data loading
+#### Data Download 
 
 ```{r}
 # Uses direct download links to download data 
@@ -66,7 +66,14 @@ for (year in c(1999,2000,2002,2004,2006,2009)) {
       # Remove previously downloaded zip file
       unlink(paste(year))
 }
+rm(year)
+rm(fullurl)
+rm(Surveydatadownloader)
+```
 
+#### Data Loading 
+
+```{r}
 
 
 
