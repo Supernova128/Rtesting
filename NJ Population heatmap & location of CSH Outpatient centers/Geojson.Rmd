@@ -11,15 +11,15 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 ```{r}
 # Packages
-require(ggplot2)
-require(plotly)
-require(geojsonio)
-require(sp)
-require(sf)
-require(rvest)
-require(RSelenium)
-require(htmltools)
-require(ggmap)
+library(ggplot2)
+library(plotly)
+library(geojsonio)
+library(sp)
+library(sf)
+library(rvest)
+library(RSelenium)
+library(htmltools)
+library(ggmap)
 ```
 
 ### Data
@@ -231,4 +231,3 @@ NJ %>%
 ggsave(file="PopheatmapNJ.png", plot = ., width=3, height=4, dpi=300)
 
 ```
-

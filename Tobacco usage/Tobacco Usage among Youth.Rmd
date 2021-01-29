@@ -85,4 +85,3 @@ for (year in list.files(path = "data")){
   assign(paste("nyts",year,sep = ""),read_sas(data_file = datapath,catalog_file = catalogpath))
 }
 ```
-
